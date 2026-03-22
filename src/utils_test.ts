@@ -10,7 +10,7 @@ import {
   isRedirect,
   isClientError,
   isServerError,
-} from './parsers.ts';
+} from './utils.ts';
 import { StatusCodes } from './status_code.ts';
 import { ReasonPhrases } from './reason_phrase.ts';
 

@@ -228,7 +228,7 @@ export function parseStatusCode(reasonPhrase: string): number {
  * ```
  */
 export function isValidStatusCode(
-  statusCode: string,
+  statusCode: string | number,
 ): boolean {
   const code = Number(statusCode);
   return !isNaN(code) && statusCodeToReasonPhrase[code] !== undefined;
@@ -252,7 +252,7 @@ export function isValidStatusCode(
 export function isValidReasonPhrase(
   reasonPhrase: string,
 ): boolean {
-  return getStatusCodeFromPhrase(reasonPhrase) != null;
+  return getStatusCodeFromPhrase(reasonPhrase) !== null;
 }
 
 /**
