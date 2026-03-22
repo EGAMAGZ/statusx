@@ -252,7 +252,7 @@ export function isValidStatusCode(
 export function isValidReasonPhrase(
   reasonPhrase: string,
 ): boolean {
-  return getStatusCodeFromPhrase(reasonPhrase) !== undefined;
+  return getStatusCodeFromPhrase(reasonPhrase) != null;
 }
 
 /**
