@@ -1,5 +1,5 @@
-import { StatusCodes, type StatusCode } from './status-code.ts';
-import { ReasonPhrases, type ReasonPhrase } from './reason-phrase.ts';
+import { StatusCodes } from './status_code.ts';
+import { ReasonPhrases } from './reason_phrase.ts';
 
 const statusCodeToReasonPhrase: Record<number, string> = {
   [StatusCodes.Continue]: ReasonPhrases.Continue,
@@ -162,7 +162,7 @@ function getStatusCodeFromPhrase(reasonPhrase: string): number | null {
 /**
  * Returns the reason phrase for a given HTTP status code.
  *
- * @param {number | string | StatusCodes} statusCode - The HTTP status code (e.g., 200, "404", StatusCodes.OK).
+ * @param {number | string} statusCode - The HTTP status code (e.g., 200, "404", StatusCodes.OK).
  * @returns {ReasonPhrase} The reason phrase corresponding to the status code.
  * @throws {Error} If the status code is invalid or unknown.
  *
@@ -174,7 +174,9 @@ function getStatusCodeFromPhrase(reasonPhrase: string): number | null {
  * getReasonPhrase(StatusCodes.BadRequest)  // "Bad Request"
  * ```
  */
-export function getReasonPhrase(statusCode: number | string | StatusCodes): ReasonPhrase {
+export function getReasonPhrase(
+  statusCode: number | string,
+): string {
   const code = Number(statusCode);
   if (isNaN(code)) {
     throw new Error(`Invalid status code: ${statusCode}`);
@@ -183,7 +185,7 @@ export function getReasonPhrase(statusCode: number | string | StatusCodes): Reas
   if (!reasonPhrase) {
     throw new Error(`Unknown status code: ${statusCode}`);
   }
-  return reasonPhrase as ReasonPhrase;
+  return reasonPhrase;
 }
 
 /**
@@ -195,13 +197,14 @@ export function getReasonPhrase(statusCode: number | string | StatusCodes): Reas
  *
  * @example
  * ```ts
- * import { getStatusCode } from "@egamagz/statusx"
- * getStatusCode("OK")              // 200
- * getStatusCode("not found")      // 404
- * getStatusCode("Internal Server Error")  // 500
+ * import { parseStatusCode, ReasonPhrases } from "@egamagz/statusx"
+ * parseStatusCode("OK")              // 200
+ * parseStatusCode("not found")      // 404
+ * parseStatusCode("Internal Server Error")  // 500
+ * parseStatusCode(ReasonPhrases.Unauthorized)  // 401
  * ```
  */
-export function getStatusCode(reasonPhrase: string | ReasonPhrase): number {
+export function parseStatusCode(reasonPhrase: string): number {
   const code = getStatusCodeFromPhrase(reasonPhrase);
   if (!code) {
     throw new Error(`Unknown reason phrase: ${reasonPhrase}`);
@@ -212,19 +215,21 @@ export function getStatusCode(reasonPhrase: string | ReasonPhrase): number {
 /**
  * Checks if a status code is a valid HTTP status code.
  *
- * @param {number | string | StatusCodes} statusCode - The status code to validate.
+ * @param {number | string} statusCode - The status code to validate.
  * @returns {boolean} True if the status code is valid, false otherwise.
  *
  * @example
  * ```ts
  * import { isValidStatusCode } from "@egamagz/statusx"
- * 
+ *
  * isValidStatusCode(200)   // true
  * isValidStatusCode("404") // true
  * isValidStatusCode(999)   // false
  * ```
  */
-export function isValidStatusCode(statusCode: number | string | StatusCodes): boolean {
+export function isValidStatusCode(
+  statusCode: string,
+): boolean {
   const code = Number(statusCode);
   return !isNaN(code) && statusCodeToReasonPhrase[code] !== undefined;
 }
@@ -238,31 +243,35 @@ export function isValidStatusCode(statusCode: number | string | StatusCodes): bo
  * @example
  * ```ts
  * import { isValidReasonPhrase } from "@egamagz/statusx"
- * 
+ *
  * isValidReasonPhrase("OK")          // true
  * isValidReasonPhrase("not found")    // true (case-insensitive)
  * isValidReasonPhrase("Invalid")      // false
  * ```
  */
-export function isValidReasonPhrase(reasonPhrase: string | ReasonPhrase): boolean {
+export function isValidReasonPhrase(
+  reasonPhrase: string,
+): boolean {
   return getStatusCodeFromPhrase(reasonPhrase) !== undefined;
 }
 
 /**
  * Checks if the status code is an informational response (1xx).
  *
- * @param {number | string | StatusCodes} statusCode - The status code to check.
+ * @param {number | string} statusCode - The status code to check.
  * @returns {boolean} True if the status code is in the 100-199 range.
  *
  * @example
  * ```ts
  * import { isInformational } from "@egamagz/statusx"
- * 
+ *
  * isInformational(100)  // true (Continue)
  * isInformational(200)  // false
  * ```
  */
-export function isInformational(statusCode: number | string | StatusCodes): boolean {
+export function isInformational(
+  statusCode: number | string,
+): boolean {
   const code = Number(statusCode);
   return !isNaN(code) && code >= 100 && code < 200;
 }
@@ -270,18 +279,18 @@ export function isInformational(statusCode: number | string | StatusCodes): bool
 /**
  * Checks if the status code is a successful response (2xx).
  *
- * @param {number | string | StatusCodes} statusCode - The status code to check.
+ * @param {number | string } statusCode - The status code to check.
  * @returns {boolean} True if the status code is in the 200-299 range.
  *
  * @example
  * ```ts
  * import { isSuccess } from "@egamagz/statusx"
- * 
+ *
  * isSuccess(200)  // true (OK)
  * isSuccess(404)  // false
  * ```
  */
-export function isSuccess(statusCode: number | string | StatusCodes): boolean {
+export function isSuccess(statusCode: number | string): boolean {
   const code = Number(statusCode);
   return !isNaN(code) && code >= 200 && code < 300;
 }
@@ -289,18 +298,18 @@ export function isSuccess(statusCode: number | string | StatusCodes): boolean {
 /**
  * Checks if the status code is a redirection response (3xx).
  *
- * @param {number | string | StatusCodes} statusCode - The status code to check.
+ * @param {number | string } statusCode - The status code to check.
  * @returns {boolean} True if the status code is in the 300-399 range.
  *
  * @example
  * ```ts
  * import { isRedirect } from "@egamagz/statusx"
- * 
+ *
  * isRedirect(301)  // true (Moved Permanently)
  * isRedirect(200)  // false
  * ```
  */
-export function isRedirect(statusCode: number | string | StatusCodes): boolean {
+export function isRedirect(statusCode: number | string): boolean {
   const code = Number(statusCode);
   return !isNaN(code) && code >= 300 && code < 400;
 }
@@ -308,7 +317,7 @@ export function isRedirect(statusCode: number | string | StatusCodes): boolean {
 /**
  * Checks if the status code is a client error response (4xx).
  *
- * @param {number | string | StatusCodes} statusCode - The status code to check.
+ * @param {number | string } statusCode - The status code to check.
  * @returns {boolean} True if the status code is in the 400-499 range.
  *
  * @example
@@ -318,7 +327,9 @@ export function isRedirect(statusCode: number | string | StatusCodes): boolean {
  * isClientError(500)  // false
  * ```
  */
-export function isClientError(statusCode: number | string | StatusCodes): boolean {
+export function isClientError(
+  statusCode: number | string,
+): boolean {
   const code = Number(statusCode);
   return !isNaN(code) && code >= 400 && code < 500;
 }
@@ -326,7 +337,7 @@ export function isClientError(statusCode: number | string | StatusCodes): boolea
 /**
  * Checks if the status code is a server error response (5xx).
  *
- * @param {number | string | StatusCodes} statusCode - The status code to check.
+ * @param {number | string} statusCode - The status code to check.
  * @returns {boolean} True if the status code is in the 500-599 range.
  *
  * @example
@@ -335,7 +346,9 @@ export function isClientError(statusCode: number | string | StatusCodes): boolea
  * isServerError(404)  // false
  * ```
  */
-export function isServerError(statusCode: number | string | StatusCodes): boolean {
+export function isServerError(
+  statusCode: number | string,
+): boolean {
   const code = Number(statusCode);
   return !isNaN(code) && code >= 500 && code < 600;
 }

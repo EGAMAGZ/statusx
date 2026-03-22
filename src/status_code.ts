@@ -1,5 +1,3 @@
-export type StatusCode = typeof StatusCodes[keyof typeof StatusCodes];
-
 export enum StatusCodes {
   /**
    * @description The server has received the request headers and the client should proceed to send the request body.

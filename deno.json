@@ -7,10 +7,8 @@
     "@std/testing": "jsr:@std/testing@^1.0.17"
   },
   "fmt": {
-    "options": {
-      "singleQuote": true,
-      "useTabs": false
-    }
+    "useTabs": false,
+    "singleQuote": true
   },
   "lint": {
     "rules": {

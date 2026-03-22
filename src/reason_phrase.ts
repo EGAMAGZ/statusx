@@ -1,5 +1,3 @@
-export type ReasonPhrase = typeof ReasonPhrases[keyof typeof ReasonPhrases];
-
 export enum ReasonPhrases {
   /**
    * @description The server has received the request headers and the client should proceed to send the request body.
@@ -264,5 +262,5 @@ export enum ReasonPhrases {
   /**
    * @description The client must authenticate to access the network (e.g., captive portal).
    */
-  NetworkAuthenticationRequired = 'Network Authentication Required'
+  NetworkAuthenticationRequired = 'Network Authentication Required',
 }
