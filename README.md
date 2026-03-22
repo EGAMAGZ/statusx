@@ -71,7 +71,11 @@ const message = ReasonPhrases.Unauthorized;
 ### Parsing Status Codes
 
 ```typescript
-import { getReasonPhrase, parseStatusCode, StatusCodes } from '@egamagz/statusx';
+import {
+  getReasonPhrase,
+  parseStatusCode,
+  StatusCodes,
+} from '@egamagz/statusx';
 
 // Get reason phrase from status code
 getReasonPhrase(200); // "OK"
