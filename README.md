@@ -25,7 +25,7 @@ The package exports:
 
 ## Installation
 
-_With Deno_*
+**With Deno**
 
 ```console
 deno add jsr:@egamagz/statusx
@@ -152,3 +152,6 @@ isServerError(500); // true (Internal Server Error)
 ## License
 
 MIT
+
+---
+Created by [@EGAMAGZ](https://github.com/EGAMAGZ)
