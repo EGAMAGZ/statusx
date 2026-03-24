@@ -155,4 +155,4 @@ MIT
 
 ---
 
-Created by [@binarybrains](https://github.com/EGAMAGZ)
+Created by [@EGAMAGZ](https://github.com/EGAMAGZ)
